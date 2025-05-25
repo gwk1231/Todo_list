@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './TodoList.css';
 import { nanoid } from 'nanoid';
 import TodoStats from './TodoStats';
+import WeatherWidget from './WeatherWidget';
 
 const COLUMNS = {
   TODO: 'todo',
@@ -219,6 +220,7 @@ function TodoList() {
   return (
     <>
       <div className="todo-container">
+        <WeatherWidget />
         <h2 className="title">📝 To Do List</h2>
         <div className="input-area">
           <div className="input-group">
