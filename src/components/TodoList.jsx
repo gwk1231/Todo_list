@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './TodoList.css';
 import { nanoid } from 'nanoid';
+import TodoStats from './TodoStats';
 
 const COLUMNS = {
   TODO: 'todo',
@@ -43,10 +44,16 @@ function TodoList() {
       createdAt: new Date().toISOString()
     };
 
-    setTodos(prev => ({
-      ...prev,
-      [COLUMNS.TODO]: [...prev[COLUMNS.TODO], newTodo]
-    }));
+    // 새로운 할 일을 추가하고 자동으로 정렬
+    setTodos(prev => {
+      const updatedTodoList = [...prev[COLUMNS.TODO], newTodo];
+      const sortedTodos = sortTodosByPriority(updatedTodoList);
+      
+      return {
+        ...prev,
+        [COLUMNS.TODO]: sortedTodos
+      };
+    });
     
     setInput('');
     setDueDate('');
@@ -86,7 +93,12 @@ function TodoList() {
       
       // 우선순위로 정렬
       const priorityOrder = { [PRIORITY.HIGH]: 0, [PRIORITY.MEDIUM]: 1, [PRIORITY.LOW]: 2 };
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+      if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      }
+      
+      // 생성 시간순으로 정렬
+      return new Date(a.createdAt) - new Date(b.createdAt);
     });
   };
 
@@ -205,45 +217,48 @@ function TodoList() {
   );
 
   return (
-    <div className="todo-container">
-      <h2 className="title">📝 To Do List</h2>
-      <div className="input-area">
-        <div className="input-group">
-          <input
-            className="input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="할 일을 입력하세요"
-          />
-          <input
-            type="date"
-            className="date-input"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-          />
-          <select
-            className="priority-select"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            <option value={PRIORITY.HIGH}>높음</option>
-            <option value={PRIORITY.MEDIUM}>중간</option>
-            <option value={PRIORITY.LOW}>낮음</option>
-          </select>
+    <>
+      <div className="todo-container">
+        <h2 className="title">📝 To Do List</h2>
+        <div className="input-area">
+          <div className="input-group">
+            <input
+              className="input"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="할 일을 입력하세요"
+            />
+            <input
+              type="date"
+              className="date-input"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+            />
+            <select
+              className="priority-select"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+            >
+              <option value={PRIORITY.HIGH}>높음</option>
+              <option value={PRIORITY.MEDIUM}>중간</option>
+              <option value={PRIORITY.LOW}>낮음</option>
+            </select>
+          </div>
+          <button className="add-button" onClick={addTodo}>
+            추가
+          </button>
         </div>
-        <button className="add-button" onClick={addTodo}>
-          추가
-        </button>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="columns-container">
+            {renderColumn(COLUMNS.TODO)}
+            {renderColumn(COLUMNS.IN_PROGRESS)}
+            {renderColumn(COLUMNS.DONE)}
+          </div>
+        </DragDropContext>
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="columns-container">
-          {renderColumn(COLUMNS.TODO)}
-          {renderColumn(COLUMNS.IN_PROGRESS)}
-          {renderColumn(COLUMNS.DONE)}
-        </div>
-      </DragDropContext>
-    </div>
+      <TodoStats todos={todos} />
+    </>
   );
 }
 
