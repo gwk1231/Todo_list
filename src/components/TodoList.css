@@ -1,0 +1,141 @@
+.todo-container {
+  width: 100%;
+  max-width: 540px;
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+.input-area {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.input:focus {
+  border-color: #3b82f6;
+}
+
+.add-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #2563eb;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-item {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+  cursor: grab;
+  position: relative;
+}
+
+.list-item::before {
+  content: '⋮⋮';
+  position: absolute;
+  left: 6px;
+  color: #9ca3af;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.list-item:hover::before {
+  opacity: 1;
+}
+
+.list-item:hover {
+  background-color: #f3f4f6;
+  padding-left: 35px;
+}
+
+.list-item.dragging {
+  background-color: #e5e7eb;
+  border: 2px dashed #3b82f6;
+  opacity: 0.8;
+  cursor: grabbing;
+}
+
+.droppable-area {
+  min-height: 100px;
+  padding: 8px 0;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.droppable-area.dragging-over {
+  background-color: #f3f4f6;
+  border: 2px dashed #3b82f6;
+}
+
+.todo-text {
+  font-size: 16px;
+  color: #111827;
+  flex: 1;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.todo-done {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.delete-button {
+  margin-left: 16px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #dc2626;
+}
