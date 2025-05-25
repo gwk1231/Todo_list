@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const API_KEY = '';
+// const API_KEY = 'ceaa8cedd06c217040de645885505aa3';
+const API_KEY = 'd5adc8ce05e9e4cd506e8886305da11e';
 
 function WeatherWidget() {
   const [weather, setWeather] = useState(null);
